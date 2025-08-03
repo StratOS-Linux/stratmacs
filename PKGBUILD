@@ -1,4 +1,5 @@
 # Maintainer: ZeStig <o0vckutt@duck.com>
+# based on https://gitlab.archlinux.org/archlinux/packaging/packages/emacs/-/blob/main/PKGBUILD?ref_type=heads
 pkgbase=emacs
 pkgname=(emacs emacs-pgtk emacs-lucid emacs-pgtk-nativecomp emacs-lucid-nativecomp)
 pkgver=30.1
