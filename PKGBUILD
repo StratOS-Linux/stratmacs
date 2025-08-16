@@ -20,45 +20,45 @@ optdepends=(
 )
 makedepends=(git cmake libgccjit)
 depends=(
-    gmp
-    poppler-glib
-    gnutls
-    lcms2
-    libacl.so
-    libasound.so
-    libgccjit
-    libdbus-1.so
-    libfontconfig.so
-    libfreetype.so
-    libgdk-3.so
-    libgdk_pixbuf-2.0.so
-    giflib # libgif.so
-    libgio-2.0.so
-    libglib-2.0.so
-    libgobject-2.0.so
-    gpm # libgpm.so
-    libgtk-3.so
-    libharfbuzz.so
-    libice
-    libjpeg.so
-    libncursesw.so
-    libotf
-    libpango-1.0.so
-    libpng
-    librsvg-2.so
-    libsm
-    sqlite
-    libsqlite3.so
-    libsystemd.so
-    libtiff.so
-    tree-sitter # libtree-sitter.so
-    libwebp # libwebp.so libwebpdemux.so
-    libxfixes
-    libxml2.so
-    m17n-lib
-    zlib
-    libvterm # libvterm.so
+  gmp
+  gnutls
+  lcms2
+  libacl.so
+  libasound.so
+  libgccjit
+  libdbus-1.so
+  libfontconfig.so
+  libfreetype.so
+  libgdk-3.so
+  libgdk_pixbuf-2.0.so
+  libgif.so
+  libgio-2.0.so
+  libglib-2.0.so
+  libgobject-2.0.so
+  libgpm.so
+  libgtk-3.so
+  libharfbuzz.so
+  libice
+  libjpeg.so
+  libncursesw.so
+  libotf
+  libpango-1.0.so
+  libpng
+  librsvg-2.so
+  libsm
+  sqlite libsqlite3.so
+  libsystemd.so
+  libtiff.so
+  libtree-sitter.so
+  libvterm.so
+  libwebp.so
+  libwebpdemux.so
+  libxfixes
+  libxml2.so
+  m17n-lib
+  zlib
 )
+
 
 source=(
   https://ftp.gnu.org/gnu/emacs/emacs-${pkgver}.tar.xz{,.sig}
