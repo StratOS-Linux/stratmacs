@@ -13,6 +13,7 @@ optdepends=(
     'git: Magit'
     # 'cmake'
     # 'vterm: Terminal emulator'
+    'pandoc-bin: nigh-universal document conversion tool'
     'mu: Email client'
     'notmuch: Email client'
     'ttf-jetbrains-mono-nerd: Default nerd font'
