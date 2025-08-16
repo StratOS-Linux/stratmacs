@@ -1,19 +1,21 @@
 # Maintainer: ZeStig <o0vckutt@duck.com>
 # based on https://gitlab.archlinux.org/archlinux/packaging/packages/emacs/-/blob/main/PKGBUILD?ref_type=heads
 pkgbase=emacs
-pkgname=(emacs emacs-pgtk emacs-lucid emacs-pgtk-nativecomp emacs-lucid-nativecomp)
-pkgver=30.1
-pkgrel=5
+pkgname=(emacs-pgtk emacs-lucid emacs-pgtk-nativecomp emacs-lucid-nativecomp)
+pkgver=30.2
+pkgrel=1
 pkgdesc="Wayland-native Emacs build for StratOS"
 arch=('x86_64')
 url='https://github.com/stratos-linux/stratmacs'
 license=('GPL-3.0-or-later')
+# options=(!strip)
 optdepends=(
-    'git'
-    'cmake'
-    'vterm'
-    'mu'
-    'ttf-jetbrains-mono'
+    'git: Magit'
+    # 'cmake'
+    # 'vterm: Terminal emulator'
+    'mu: Email client'
+    'notmuch: Email client'
+    'ttf-jetbrains-mono-nerd: Default nerd font'
 )
 makedepends=(git cmake libgccjit)
 depends=(
@@ -59,15 +61,11 @@ depends=(
 
 source=(
   https://ftp.gnu.org/gnu/emacs/emacs-${pkgver}.tar.xz{,.sig}
-  fix-compile.patch::https://github.com/emacs-mirror/emacs/commit/53a5dada413662389a17c551a00d215e51f5049f.patch
 )
-b2sums=('ad502a2e15a04618f4766ec6e285739cb5bb6f19c5065c3aed03b3e50df590cee382a0331f382de6f13523f1362a4355f65961ce45504f7d33419ea6d04e326f'
-        'SKIP'
-        'b38ad198ed8975963a05201e2124b8cf2947c6ddb792aaef618d1968d7b0329241235f4ccc69ac62ee43189e20aa70a28254f6c787fa38359c1aae22286df9d1')
-
+b2sums=('9163ba6bfab1010a156c669ac085ad363545d73e3ffac21c710b14b618df61a4c6a80a50fd3fa81d852c2ccace5080e614b679606fa584e28509f99ad6196784'
+        'SKIP')
+validpgpkeys=('17E90D521672C04631B1183EE78DAE0F3115E06B') # Eli Zaretskii <eliz@gnu.org>
 prepare() {
-  patch -d emacs-${pkgver} -Np1 < fix-compile.patch
-
   cp -a emacs-${pkgver} ${srcdir}/emacs-${pkgver}-pgtk
   cp -a emacs-${pkgver} ${srcdir}/emacs-${pkgver}-lucid
   cp -a emacs-${pkgver} ${srcdir}/emacs-${pkgver}-pgtk-nativecomp
@@ -103,14 +101,14 @@ _build_emacs_variant() {
     --without-mailutils \
     --disable-gc-mark-trace \
     "${flags[@]}"
-  make
+  make -j
 }
 
 build() {
-  _build_emacs_variant pgtk --with-pgtk --without-xwidgets
-  _build_emacs_variant lucid --with-x-toolkit=lucid --with-xwidgets
+  _build_emacs_variant pgtk --with-pgtk --without-native-compilation --without-xwidgets
+  _build_emacs_variant lucid --with-x-toolkit=lucid --without-native-compilation # --with-xwidgets
   _build_emacs_variant pgtk-nativecomp --with-pgtk --with-native-compilation --without-xwidgets
-  _build_emacs_variant lucid-nativecomp --with-x-toolkit=lucid --with-native-compilation--with-xwidgets
+  _build_emacs_variant lucid-nativecomp --with-x-toolkit=lucid --with-native-compilation # --with-xwidgets
 }
 
 _package_emacs_variant() {
@@ -121,21 +119,10 @@ _package_emacs_variant() {
   make DESTDIR="${pkgdir}" install
 
   # Avoid conflict with ctags package
-  mv "${pkgdir}/usr/bin/ctags" "${pkgdir}/usr/bin/ctags.emacs"
-  mv "${pkgdir}/usr/share/man/man1/ctags.1.gz" "${pkgdir}/usr/share/man/man1/ctags.emacs.1"
+  # mv "${pkgdir}/usr/bin/ctags" "${pkgdir}/usr/bin/ctags.emacs"
+  # mv "${pkgdir}/usr/share/man/man1/ctags.1.gz" "${pkgdir}/usr/share/man/man1/ctags.emacs.1"
 
-  chown -R root:root "${pkgdir}/usr/share/emacs/${pkgver}"
-}
-
-package_emacs() {
-  pkgdesc='The extensible, customizable, self-documenting real-time display editor (no toolkit)'
-  cd "${srcdir}/emacs-${pkgver}"
-  make DESTDIR="${pkgdir}" install
-
-  mv "${pkgdir}/usr/bin/ctags" "${pkgdir}/usr/bin/ctags.emacs"
-  mv "${pkgdir}/usr/share/man/man1/ctags.1.gz" "${pkgdir}/usr/share/man/man1/ctags.emacs.1"
-
-  chown -R root:root "${pkgdir}/usr/share/emacs/${pkgver}"
+  # chown -R root:root "${pkgdir}/usr/share/emacs/${pkgver}"
 }
 
 package_emacs-pgtk() {
