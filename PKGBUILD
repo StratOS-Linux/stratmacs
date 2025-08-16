@@ -50,7 +50,7 @@ depends=(
   libsystemd.so
   libtiff.so
   libtree-sitter.so
-  vterm
+  libvterm
   libwebp.so
   libwebpdemux.so
   libxfixes
